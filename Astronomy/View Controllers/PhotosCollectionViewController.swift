@@ -66,9 +66,19 @@ class PhotosCollectionViewController: UIViewController, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+        // Get photo reference
+        
+        guard indexPath.item < photoReferences.count else { return }
         let photoRef = photoReferences[indexPath.item]
-        operations[photoRef.id]?.cancel()
-    }
+        
+        // Cancelling an operation
+        guard
+            let operationForPhotoReferenceID = operations[photoRef.id]
+            else { return }
+        operationForPhotoReferenceID.cancel()
+        
+        }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
